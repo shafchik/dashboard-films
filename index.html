@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14171b">
+  <meta name="description" content="Архив видеоклуба: ищи фильмы, открывай случайные находки и собирай личную полку.">
+  <title>Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <header id="top">
+    <a id="brand" href="#top" aria-label="Archive — к началу">Archive</a>
+    <p id="tagline">КАТАЛОГ ФИЛЬМОВ ДЛЯ ЛИЧНОГО ПРОСМОТРА</p>
+    <nav aria-label="Навигация по архиву">
+      <a href="#movie-search">Поиск</a>
+      <a href="#random-movie">Случайная находка</a>
+      <a href="#favorites">Моя полка <span id="nav-favorite-count">0</span></a>
+    </nav>
+  </header>
+
+  <main id="dashboard">
+    <section id="intro" aria-labelledby="page-title">
+      <div>
+        <p id="intro-label">ЛИЧНАЯ КАРТОТЕКА · ВЫПУСК 2026</p>
+        <h1 id="page-title">Фильмы,<br><em>к которым возвращаются.</em></h1>
+        <p id="intro-copy">Ищи по настроению, находи случайный релиз и оставляй сердцем то, что хочется посмотреть.</p>
+      </div>
+      <p id="archive-stamp" aria-label="Метка архива">КАРТОТЕКА<br><strong>ОТКРЫТА</strong><br>ДЛЯ НОВЫХ НАХОДОК</p>
+    </section>
+
+    <div id="dashboard-grid">
+      <div id="main-column">
+        <section id="movie-search" aria-labelledby="search-title">
+          <div id="search-heading">
+            <div>
+              <p id="search-kicker">ИССЛЕДОВАТЬ</p>
+              <h2 id="search-title">Поиск по архиву</h2>
+            </div>
+            <p id="search-caption">ЖАНР · СТРАНА · ГОД</p>
+          </div>
+          <form id="search-form" novalidate>
+            <div id="query-field">
+              <label for="title-query">Название или часть названия <span>(необязательно)</span></label>
+              <input id="title-query" name="title" type="search" maxlength="80" placeholder="Например, Paris, Texas" autocomplete="off">
+            </div>
+            <div id="filter-grid">
+              <div>
+                <label for="genre-filter">Жанр</label>
+                <select id="genre-filter" name="genre">
+                  <option value="Q130232">Драма</option>
+                  <option value="Q157443">Комедия</option>
+                  <option value="Q188473">Боевик</option>
+                  <option value="Q24925">Научная фантастика</option>
+                  <option value="Q200092">Ужасы</option>
+                  <option value="Q2484376">Триллер</option>
+                  <option value="Q202866">Анимация</option>
+                  <option value="Q93204">Документальный</option>
+                </select>
+              </div>
+              <div>
+                <label for="country-filter">Страна производства</label>
+                <select id="country-filter" name="country">
+                  <option value="">Любая страна</option>
+                  <option value="Q30">США</option>
+                  <option value="Q142">Франция</option>
+                  <option value="Q17">Япония</option>
+                  <option value="Q15180">СССР</option>
+                  <option value="Q145">Великобритания</option>
+                  <option value="Q183">Германия</option>
+                </select>
+              </div>
+              <div>
+                <label for="year-from">Год выпуска: с</label>
+                <input id="year-from" name="yearFrom" type="number" min="1888" max="2026" value="2000" inputmode="numeric">
+              </div>
+              <div>
+                <label for="year-to">по</label>
+                <input id="year-to" name="yearTo" type="number" min="1888" max="2026" value="2026" inputmode="numeric">
+              </div>
+            </div>
+            <p id="search-error" role="alert" hidden></p>
+            <div id="search-actions">
+              <button id="search-button" type="submit">Найти фильмы <span aria-hidden="true">↗</span></button>
+              <button id="search-retry" type="button">Повторить последний поиск ↻</button>
+            </div>
+          </form>
+          <p id="search-feedback" role="status" aria-live="polite">Выбери параметры и нажми «Найти фильмы».</p>
+          <p id="search-stale" hidden></p>
+          <div id="search-results" aria-label="Результаты поиска фильмов"></div>
+        </section>
+
+        <section id="random-movie" aria-labelledby="random-title">
+          <div id="random-heading">
+            <div>
+              <p id="random-kicker">СЛУЧАЙНЫЙ ДОСТУП</p>
+              <h2 id="random-title">Находка из свежих релизов</h2>
+            </div>
+            <button id="random-button" type="button">Найти фильм ↻</button>
+          </div>
+          <p id="random-intro">Один фильм со скорым следом на киноленте: дата релиза — в пределах последних 365 дней.</p>
+          <div id="random-feedback" role="status" aria-live="polite">Нажми кнопку — архив выберет фильм за последний год.</div>
+          <p id="random-stale" hidden></p>
+          <div id="random-result" aria-label="Случайный фильм"></div>
+        </section>
+      </div>
+
+      <aside id="favorites" aria-labelledby="favorites-title">
+        <div id="favorites-heading">
+          <div>
+            <p id="favorites-kicker">ЛИЧНЫЙ ФОНД</p>
+            <h2 id="favorites-title">Моя полка</h2>
+          </div>
+          <span id="favorite-count" aria-live="polite">0</span>
+        </div>
+        <p id="favorites-intro">Сохраняй сердцем. Избранное останется здесь и после перезагрузки.</p>
+        <p id="favorites-empty">Пока здесь тихо.<br>Отмечай фильмы сердечком, чтобы собрать свой список.</p>
+        <ul id="favorites-list" aria-label="Избранные фильмы"></ul>
+        <p id="favorites-footnote">ЛОКАЛЬНАЯ ПОЛКА · ХРАНИТСЯ В ЭТОМ БРАУЗЕРЕ</p>
+      </aside>
+    </div>
+  </main>
+
+  <footer id="footer">
+    <a href="#top">Archive ↑</a>
+    <p>сгенерировано codex 2ч 37мин Даниил Шафиков 2-МД-20</p>
+  </footer>
+</body>
+</html>
+
+
+
